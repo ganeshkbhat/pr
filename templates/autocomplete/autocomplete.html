@@ -1,0 +1,159 @@
+<html>
+
+<head>
+    <style>
+        .select-editable {
+            position: relative;
+            background-color: white;
+            border: solid grey 1px;
+            width: 120px;
+            height: 18px;
+        }
+
+        .select-editable select {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            font-size: 14px;
+            border: none;
+            width: 120px;
+            margin: 0;
+        }
+
+        .select-editable input {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width: 100px;
+            padding: 1px;
+            font-size: 12px;
+            border: none;
+        }
+
+        .select-editable select:focus,
+        .select-editable input:focus {
+            outline: none;
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <div class="select-editable">
+        <select onchange="this.nextElementSibling.value=this.value">
+            <option value=""></option>
+            <option value="115x175 mm">115x175 mm</option>
+            <option value="120x160 mm">120x160 mm</option>
+            <option value="120x287 mm">120x287 mm</option>
+        </select>
+        <input type="text" name="format" value="" />
+    </div>
+
+    <br />
+    <h3> Using HTML5 </h3>
+    <input list="inputautocomplete" name="somename" id="autocompleteinput">
+    <datalist id="inputautocomplete">
+        <option value="Internet Explorer 1" class="list-item">
+        <option value="Firefox 3">
+        <option value="Chrome 4">
+        <option value="Opera 5">
+        <option value="Safari 6">
+        <option value="Internet Explorer">
+        <option value="Firefox">
+        <option value="Chrome">
+        <option value="Opera">
+        <option value="Safari">
+    </datalist>
+    <script>
+        // Find all inputs on the DOM which are bound to a datalist via their list attribute.
+        var inputs = document.querySelectorAll('input[list]');
+        for (var i = 0; i < inputs.length; i++) {
+            // When the value of the input changes...
+            inputs[i].addEventListener('change', function () {
+                var optionFound = false,
+                    datalist = this.list;
+                // Determine whether an option exists with the current value of the input.
+                for (var j = 0; j < datalist.options.length; j++) {
+                    if (this.value == datalist.options[j].value) {
+                        optionFound = true;
+                        break;
+                    }
+                }
+                // use the setCustomValidity function of the Validation API
+                // to provide an user feedback if the value does not exist in the datalist
+                if (optionFound) {
+                    this.setCustomValidity('');
+                } else {
+                    this.setCustomValidity('Please select a valid value.');
+                }
+            });
+        }
+
+        function getData() {
+            var newName = 'John Smith',
+                xhr = new XMLHttpRequest();
+
+            xhr.open('POST', 'myservice/username?id=some-unique-id');
+            xhr.withCredentials = true;
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+            xhr.onload = function () {
+                if (xhr.status === 200 && xhr.responseText !== newName) {
+                    alert('Something went wrong.  Name is now ' + xhr.responseText);
+                }
+                else if (xhr.status !== 200) {
+                    alert('Request failed.  Returned status of ' + xhr.status);
+                }
+            };
+            xhr.send(encodeURI('name=' + newName));
+        }
+    </script>
+    <script>
+        // Add crsf capture
+        // https://docs.djangoproject.com/en/3.0/ref/csrf/
+
+        // Add listeners for all fields that need autocomplete
+        function addlisteners() {
+            l = ['autocompleteinput']
+            for (i = 0; i < l.length; i++) {
+                // Listen for the enter key press.
+                document.getElementById(l[i]).addEventListener('keyup', function (e) {
+                    // if (e.keyCode == 13) {
+                    //     // Simulate clicking on the submit button.
+                    //     triggerEvent(submitButton, 'click');
+                    // }
+                    triggerEvent(e, 'keyup');
+                });
+            }
+        }
+        addlisteners()
+
+        /**
+         * Trigger the specified event on the specified element.
+         * https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Creating_and_triggering_events
+         * https://codepen.io/felquis/pen/damDA
+         * @param  {Object} elem  the target element.
+         * @param  {String} event the type of the event (e.g. 'click').
+         */
+        function triggerEvent(elem, event) {
+
+            if (event == 'keyup' && elem.target.value.length > 3) {
+                // Create the event.
+                // var clickEvent = new Event(event);
+                // Dispatch the event.
+                // elem.currentTarget.dispatchEvent(clickEvent);
+
+
+                // console.log("Test", elem.currentTarget, elem.target.value, elem)
+
+                // Get values from server
+                // Do search with XHR + csrf + loginCookie
+                // The response should get new csrf token and results
+                //      and manipulate the data list items by changing classes
+            }
+        }
+    </script>
+</body>
+
+</html>
