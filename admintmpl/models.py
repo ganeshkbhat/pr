@@ -20,10 +20,7 @@ class Answers(models.Model):
 class Student(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, to_field='username')
     assigned_question = models.ForeignKey(Answers, on_delete=models.PROTECT)
-    # TASK:
-    # need custom admin template inside admin that shows
-    #       all questions assigned to user
-    #       filter option sort by user
+
 
 class QuestionsAnswered(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, to_field='username')
