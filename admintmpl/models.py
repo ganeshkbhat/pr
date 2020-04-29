@@ -26,7 +26,7 @@ class QuestionsAnswered(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, to_field='username')
     # question number
     question = models.ForeignKey(Question, on_delete=models.PROTECT)
-    # answer = models.CharField("Answer seleted")
+    answer = models.CharField("Answer seleted")
     # selected answer
-    selected_answer = models.CharField("Selected Answer")
+    selected_answer = models.BoolField("Selected Answer")
 
